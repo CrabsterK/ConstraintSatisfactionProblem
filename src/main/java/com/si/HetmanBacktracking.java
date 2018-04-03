@@ -39,7 +39,7 @@ public class HetmanBacktracking {
     }
 
 
-    public boolean canPlaceHetman(int row, int column) {
+    private boolean canPlaceHetman(int row, int column) {
         if(board[row][column]) { //position controll
             return false;
         }
