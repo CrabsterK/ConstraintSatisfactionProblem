@@ -10,7 +10,6 @@ public class HetmanBacktracking {
     private boolean rowControl[];
     private boolean board[][];
 
-
     public HetmanBacktracking(int n) {
         this.N = n;
         this.numberOfRecur = 0;
@@ -34,12 +33,7 @@ public class HetmanBacktracking {
         return numberOfReturns;
     }
 
-    public void go() {
-        goRecoursive(0);
-    }
-
-
-    private boolean canPlaceHetman(int row, int column) {
+       private boolean isSafe(int row, int column) {
         if(board[row][column]) { //position controll
             return false;
         }
@@ -49,7 +43,6 @@ public class HetmanBacktracking {
         if(rowControl[column]){ //row controll
             return false;
         }
-
         //diagonal controll
         for(int i = row-1, j = column-1; i >= 0 && j >= 0; i--, j--) {//NW
             if(board[i][j]) {
@@ -75,28 +68,48 @@ public class HetmanBacktracking {
     }
 
 
-    private void goRecoursive(int column) {
+    public void go(){
+        goRecoursive(0);
+    }
+
+    private void goRecoursive(int col) {
         numberOfRecur++;
-        for (int row = 0; row < N; row++) {
-            if(canPlaceHetman(row, column)){
-                board[row][column] = true; //wstawia hetmana
+        for (int row = 0; row < N; row++) {//Iterating over each row in column 'col'
+            if(isSafe(row, col)){
+                board[row][col] = true; //wstawia hetmana
                 columnControl[row] = true; //zajmuje kolumnę
-                rowControl[column] = true; //zajmuje wiersz
+                rowControl[col] = true; //zajmuje wiersz
 
-
-                if (column < (N - 1)) {//jeśli mogę sprawdzić kolejną kolumnę
-                    goRecoursive(column + 1);
-                } else {
+                if (col < (N - 1)) {
+                    goRecoursive(col + 1 );
+                }
+                else {
                     numberOfSolutions++;
+                    print();
                 }
 
-
-                //nawrót
+                //If no possible arrangement is found then backtrack and remove the quueen
                 columnControl[row] = false;
-                rowControl[column] = false;
-                board[row][column] = false;
+                rowControl[col] = false;
+                board[row][col] = false;
                 numberOfReturns++;
             }
         }
+    }
+
+    public void print() {
+        String matrix = "";
+        for(int i = 0; i< board.length; i++) {
+            for(int j = 0; j< board[i].length; j++) {
+                if(board[i][j]){
+                    matrix += "1  ";
+                }
+                else {
+                    matrix += "0  ";
+                }
+            }
+            matrix += "\n";
+        }
+        System.out.println(matrix);
     }
 }
