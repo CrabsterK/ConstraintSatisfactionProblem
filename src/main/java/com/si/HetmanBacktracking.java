@@ -33,7 +33,7 @@ public class HetmanBacktracking {
         return numberOfReturns;
     }
 
-       private boolean isSafe(int row, int column) {
+    private boolean isSafe(int row, int column) {
         if(board[row][column]) { //position controll
             return false;
         }
@@ -67,7 +67,6 @@ public class HetmanBacktracking {
         return true;
     }
 
-
     public void go(){
         goRecoursive(0);
     }
@@ -85,7 +84,7 @@ public class HetmanBacktracking {
                 }
                 else {
                     numberOfSolutions++;
-                    print();
+                    //print();
                 }
 
                 //If no possible arrangement is found then backtrack and remove the quueen
