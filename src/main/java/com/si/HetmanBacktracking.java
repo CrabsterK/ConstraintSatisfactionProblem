@@ -34,32 +34,26 @@ public class HetmanBacktracking {
     }
 
     private boolean isSafe(int row, int column) {
-        if(board[row][column]) { //position controll
-            return false;
-        }
+/*
+ //TO OPISAC JAKO HEURYSTYKE. ZASTĄPIONE TYMI DWOMA NIZEJ
+        for (int i = 0; i < column; i++) {
+            if (board[row][i]) {
+                return false;
+            }
+        }*/
         if(columnControl[row]){ //column controll
             return false;
         }
         if(rowControl[column]){ //row controll
             return false;
         }
-        //diagonal controll
+        //left diagonal controll
         for(int i = row-1, j = column-1; i >= 0 && j >= 0; i--, j--) {//NW
             if(board[i][j]) {
                 return false;
             }
         }
-        for(int i = row-1, j = column+1; i >= 0 && j < N; i--, j++) { //NE
-            if(board[i][j]) {
-                return false;
-            }
-        }
         for(int i = row+1, j = column-1; i < N && j >= 0; i++, j--) { //SW
-            if(board[i][j]) {
-                return false;
-            }
-        }
-        for(int i = row+1, j = column+1; i < N && j < N; i++, j++) { //SE
             if(board[i][j]) {
                 return false;
             }
@@ -73,25 +67,22 @@ public class HetmanBacktracking {
 
     private void goRecoursive(int col) {
         numberOfRecur++;
-        for (int row = 0; row < N; row++) {//Iterating over each row in column 'col'
-            if(isSafe(row, col)){
+        if (col >= N) {
+            //print();
+            numberOfSolutions++;
+        }
+        for (int row = 0; row < N; row++){//Iterating over each row in column 'col'
+            if (isSafe(row, col)) {
                 board[row][col] = true; //wstawia hetmana
                 columnControl[row] = true; //zajmuje kolumnę
                 rowControl[col] = true; //zajmuje wiersz
 
-                if (col < (N - 1)) {
-                    goRecoursive(col + 1 );
-                }
-                else {
-                    numberOfSolutions++;
-                    //print();
-                }
+                goRecoursive(col + 1 );
 
                 //If no possible arrangement is found then backtrack and remove the quueen
                 columnControl[row] = false;
                 rowControl[col] = false;
                 board[row][col] = false;
-                numberOfReturns++;
             }
         }
     }
