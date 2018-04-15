@@ -78,6 +78,7 @@ public class LatinBacktracking {
         numberOfRecur++;
         if (isSafe(board)) {
             if (!board.contains(0)) {
+                //print(board);
                 numberOfSolutions++;
             }
             else {
@@ -97,5 +98,15 @@ public class LatinBacktracking {
         ArrayList newBoard = new ArrayList<>(board);
         newBoard.set(index, i);
         return newBoard;
+    }
+
+    public void print(ArrayList board) {
+        for(int i = 1; i<= board.size(); i++) {
+            System.out.print(board.get(i-1) +" ");
+            if(i%N == 0){
+                System.out.println();
+            }
+        }
+        System.out.println();
     }
 }
