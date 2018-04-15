@@ -3,7 +3,7 @@ package com.si;
 public class Main {
     public static void main(String[] args) {
         int n = 7;
-        int n2 = 3;
+        int n2 = 4;
 
         System.out.println("============================== N QUEENS ==============================");
         System.out.println("                             BACKTRACKING                             ");
@@ -42,7 +42,6 @@ public class Main {
         long startTimeLfc = System.currentTimeMillis();
         lfc.go();
         double estimatedTimeLfc = System.currentTimeMillis() - startTimeLfc;
-        System.out.println("n = " + n + "\tLiczba rozwiązań: " + lfc.getNumberOfSolutions() + "\tWywołań rekursywnych: " + lfc.getNumberOfRecur() + "\tCzas: " + estimatedTimeFc + "ms\n");
-
+        System.out.println("n = " + n2 + "\tLiczba rozwiązań: " + lfc.getNumberOfSolutions() + "\tWywołań rekursywnych: " + lfc.getNumberOfRecur() + "\tCzas: " + estimatedTimeLfc + "ms\n");
     }
 }
