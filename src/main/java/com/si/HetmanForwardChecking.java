@@ -79,7 +79,6 @@ public class HetmanForwardChecking {
     }
 
     private void goRecoursive(int col, ArrayList<Integer> domain) {
-        System.out.println(col);
         numberOfRecur++;
         if (col >= N) {
             //print();
