@@ -38,7 +38,7 @@ public class LatinBacktracking {
         return board;
     }
 
-    protected boolean isSafe(List<Integer> board) {//same zera, unikalny wiersz, unikalna kolumna
+    private boolean isSafe(List<Integer> board) {//same zera, unikalny wiersz, unikalna kolumna
         HashSet<Integer> values = new HashSet<>(board);
         if (values.size() == 1 && values.contains(0)) { //są same '0'
             return true;
@@ -71,10 +71,10 @@ public class LatinBacktracking {
     }
 
     public void go() {
-        backTrack(board);
+        goRecoursive(board);
     }
 
-    private void backTrack(ArrayList board) {
+    private void goRecoursive(ArrayList board) {
         numberOfRecur++;
         if (isSafe(board)) {
             if (!board.contains(0)) {
@@ -82,8 +82,8 @@ public class LatinBacktracking {
             }
             else {
                 for( int i = 1; i <= N; i++){
-                    ArrayList nextSolution = putNextVal(board, i);
-                    backTrack(nextSolution);//rekurencja
+                    ArrayList newSolution = putNextVal(board, i);
+                    goRecoursive(newSolution);//rekurencja
                 }
             }
         }
@@ -92,7 +92,7 @@ public class LatinBacktracking {
         }
     }
 
-    protected ArrayList putNextVal(ArrayList board, int i) {//na pierwsze napotkane 0 wstawia nextVal i zwraca taką listę
+    private ArrayList putNextVal(ArrayList board, int i) {//na pierwsze napotkane 0 wstawia nextVal i zwraca taką listę
         int index = board.indexOf(0);
         ArrayList newBoard = new ArrayList<>(board);
         newBoard.set(index, i);
