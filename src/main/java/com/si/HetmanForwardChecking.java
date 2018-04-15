@@ -79,6 +79,7 @@ public class HetmanForwardChecking {
     }
 
     private void goRecoursive(int col, ArrayList<Integer> domain) {
+        System.out.println(col);
         numberOfRecur++;
         if (col >= N) {
             //print();
@@ -90,7 +91,7 @@ public class HetmanForwardChecking {
                     columnControl[domain.get(i)] = true; //zajmuje kolumnę
                     rowControl[col] = true; //zajmuje wiersz
 
-                    ArrayList<Integer> newDomain = getDomain(col + 1);
+                    ArrayList<Integer> newDomain = getDomain(col + 1); //będzie wywołanie z przekroczeniem zakresu, ale to wyłapie warunek wyniku.
                     if (!newDomain.isEmpty()) {
                         goRecoursive(col + 1, newDomain);
                     }
