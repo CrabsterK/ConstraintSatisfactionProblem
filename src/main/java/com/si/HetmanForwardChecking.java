@@ -1,5 +1,7 @@
 package com.si;
 
+import java.util.ArrayList;
+
 public class HetmanForwardChecking {
     private final int N;
     private int numberOfRecur;
@@ -9,6 +11,7 @@ public class HetmanForwardChecking {
     private boolean columnControl[];
     private boolean rowControl[];
     private boolean board[][];
+    ArrayList<Integer> domainList;
 
     public HetmanForwardChecking(int n) {
         this.N = n;
@@ -19,6 +22,10 @@ public class HetmanForwardChecking {
         this.columnControl = new boolean[n];
         this.rowControl = new boolean[n];
         this.board = new boolean[n][n];
+        domainList = new ArrayList<>(n);
+        for (int i = 0; i < N; i++) {
+            domainList.add(i);
+        }
     }
 
     public int getNumberOfRecur() {
@@ -34,8 +41,8 @@ public class HetmanForwardChecking {
     }
 
     private boolean isSafe(int row, int column) {
-        if(board[row][column]) { //position controll
-            return false;
+        if (column >= N) {
+            return true;
         }
         if(columnControl[row]){ //column controll
             return false;
@@ -43,13 +50,8 @@ public class HetmanForwardChecking {
         if(rowControl[column]){ //row controll
             return false;
         }
-        //diagonal controll
+        //left diagonal controll
         for(int i = row-1, j = column-1; i >= 0 && j >= 0; i--, j--) {//NW
-            if(board[i][j]) {
-                return false;
-            }
-        }
-        for(int i = row-1, j = column+1; i >= 0 && j < N; i--, j++) { //NE
             if(board[i][j]) {
                 return false;
             }
@@ -59,56 +61,44 @@ public class HetmanForwardChecking {
                 return false;
             }
         }
-        for(int i = row+1, j = column+1; i < N && j < N; i++, j++) { //SE
-            if(board[i][j]) {
-                return false;
+        return true;
+    }
+
+    private ArrayList<Integer> getDomain(int col) {
+        ArrayList<Integer> domainList = new ArrayList<Integer>(N);
+        for (int i = 0; i < N; i++) {
+            if (isSafe(i, col)) {
+                domainList.add(i);
             }
         }
-        return true;
+        return domainList;
     }
 
     public void go(){
-        goRecoursive(0);
+        goRecoursive(0, domainList);
     }
 
-    private boolean forwardChecking(int column) {
-        boolean canGo;
-        for (int col = column; col < N; col++) {
-            canGo = false;
-            for (int row = 0; row < N; row++) {
-                if(isSafe(row, col)) {
-                    canGo = true;
-                }
-            }
-            if (!canGo) {
-                return canGo;
-            }
-        }
-        return true;
-    }
-
-    private void goRecoursive(int col) {
+    private void goRecoursive(int col, ArrayList<Integer> domain) {
         numberOfRecur++;
-        for (int row = 0; row < N; row++) {//Iterating over each row in column 'col'
-            if(isSafe(row, col)){
-                board[row][col] = true; //wstawia hetmana
-                columnControl[row] = true; //zajmuje kolumnę
-                rowControl[col] = true; //zajmuje wiersz
+        if (col >= N) {
+            //print();
+            numberOfSolutions++;
+        } else {
+            if (!domain.isEmpty()) {
+                for (int i = 0; i < domain.size(); i++) {
+                    board[domain.get(i)][col] = true; //wstawia hetmana
+                    columnControl[domain.get(i)] = true; //zajmuje kolumnę
+                    rowControl[col] = true; //zajmuje wiersz
 
-                if (col < (N - 1)) {
-                    if (forwardChecking(col + 1))//DODATKOWY WARTUNEK DLA FC
-                        goRecoursive(col + 1);
-                }
-                else {
-                    numberOfSolutions++;
-                    print();
-                }
+                    ArrayList<Integer> newDomain = getDomain(col + 1);
+                    if (!newDomain.isEmpty()) {
+                        goRecoursive(col + 1, newDomain);
+                    }
 
-                //If no possible arrangement is found then backtrack and remove the quueen
-                columnControl[row] = false;
-                rowControl[col] = false;
-                board[row][col] = false;
-                numberOfReturns++;
+                    columnControl[domain.get(i)] = false;
+                    rowControl[col] = false;
+                    board[domain.get(i)][col] = false;
+                }
             }
         }
     }
