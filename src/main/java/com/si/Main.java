@@ -5,7 +5,7 @@ import java.util.Collections;
 
 public class Main {
     public static void main(String[] args) {
-        int n = 13;
+        int n = 14;
         int n2 = 3;
        // final int EXPERIMENT_COUNTER = 10;
         System.out.println("============================== N QUEENS ==============================");

@@ -44,6 +44,12 @@ public class HetmanForwardChecking {
         if (column >= N) {
             return true;
         }
+        //TO OPISAC JAKO HEURYSTYKE. ZASTĄPIONE TYMI DWOMA NIZEJ
+      /*  for (int i = 0; i < column; i++) {
+            if (board[row][i]) {
+                return false;
+            }
+        }*/
         if(columnControl[row]){ //column controll
             return false;
         }
