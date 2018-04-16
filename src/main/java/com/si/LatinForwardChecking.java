@@ -66,7 +66,7 @@ public class LatinForwardChecking {
         }
         else {
             List<List<Integer>> newDomain = getDomains(board, domains, index);///////////////
-            if (!isEmptyDomain(board, newDomain)) {
+            if (!isEmptyDomain(board, newDomain)) {//jeśli dla jakiejś wartości w przyszłości w wieszu nie ma już domeny, to uciekamy NAWRÓT
                 int indexOf0 = board.indexOf(0);
                 List<Integer> domainList = newDomain.get(indexOf0);
                 for(int i = 0; i < domainList.size(); i++){
@@ -105,9 +105,9 @@ public class LatinForwardChecking {
         for(int i = 0; i < domains.size(); i++) {
             copyDomains.add(new ArrayList<>(domains.get(i)));
         }
-        //clean domain for last value
+        //delete whole domain for lastValueIndex
         copyDomains.get(lastValIndex).clear();
-        //update row
+        //row
         Integer lastValue = board.get(lastValIndex);
         int firstIndexOfRow = lastValIndex - lastValIndex % N;
         int firstIndexOfNextRow = N - lastValIndex % N + lastValIndex;
@@ -115,7 +115,7 @@ public class LatinForwardChecking {
         for(int i = 0; i < domainsRow.size(); i++) {
             domainsRow.get(i).remove(lastValue);
         }
-        //update column
+        //col
         for (int i = 0; i < N; i++) {
             int columnVariableIndex = lastValIndex % N + i * N;
             copyDomains.get(columnVariableIndex).remove(lastValue);

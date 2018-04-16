@@ -93,10 +93,10 @@ public class LatinBacktracking {
         }
     }
 
-    private ArrayList putNextVal(ArrayList board, int i) {//na pierwsze napotkane 0 wstawia nextVal i zwraca taką listę
+    private ArrayList putNextVal(ArrayList board, int val) {//na pierwsze napotkane 0 wstawia nextVal i zwraca taką listę
         int index = board.indexOf(0);
         ArrayList newBoard = new ArrayList<>(board);
-        newBoard.set(index, i);
+        newBoard.set(index, val);
         return newBoard;
     }
 
